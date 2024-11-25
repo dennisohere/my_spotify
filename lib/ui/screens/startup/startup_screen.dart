@@ -14,12 +14,14 @@ class StartUpScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final startUp = ref.watch(startUpProvider);
 
-    return startUp.when(
-      data: (_) => builder(context),
-      error: (e, s) {
-        return StartUpError(error: e);
-      },
-      loading: () => const StartUpLoading(),
+    return MaterialApp(
+      home: startUp.when(
+        data: (_) => builder(context),
+        error: (e, s) {
+          return StartUpError(error: e);
+        },
+        loading: () => const StartUpLoading(),
+      ),
     );
   }
 }
