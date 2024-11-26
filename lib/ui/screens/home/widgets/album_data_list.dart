@@ -72,7 +72,7 @@ class _RenderAlbumListItem extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ).textColor(Colors.grey.shade400),
-        Text('${album.releaseDate}').textColor(Colors.grey.shade400)
+        Text('${album.releaseDate?.split('-')[0]}').textColor(Colors.grey.shade400)
       ],
     );
   }
