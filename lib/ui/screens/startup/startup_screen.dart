@@ -15,6 +15,7 @@ class StartUpScreen extends ConsumerWidget {
     final startUp = ref.watch(startUpProvider);
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: startUp.when(
         data: (_) => builder(context),
         error: (e, s) {

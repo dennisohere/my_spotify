@@ -1,5 +1,6 @@
 
 
+import 'package:my_spotify/dtos/search_result_response.dart';
 import 'package:my_spotify/ui/screens/home/home_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,6 +20,9 @@ class HomeController extends _$HomeController{
     state = state.copyWith(dataListType: dataListType);
   }
 
+  setSearchResult(SearchResultResponse searchResult){
+    state = state.copyWith(searchResult: searchResult);
+  }
 
 
 }

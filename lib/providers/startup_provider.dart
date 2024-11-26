@@ -15,7 +15,6 @@ Future<void> startUp(Ref ref) async {
 
   final storedAccessToken = await tokenService.getAccessToken();
 
-  Logger().d('storedAccessToken: $storedAccessToken');
 
   if(storedAccessToken == null) {
     final accessTokenResponse = await tokenService.requestAccessToken();

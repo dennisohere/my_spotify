@@ -1,34 +1,37 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:my_spotify/ui/screens/home/home_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_spotify/dtos/search_result_response.dart';
+import 'package:my_spotify/ui/screens/home/home_controller.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-class AlbumDataList extends StatelessWidget {
+class AlbumDataList extends ConsumerWidget {
   const AlbumDataList({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      crossAxisSpacing: 20,
-      mainAxisSpacing: 15,
-      childAspectRatio: 0.72,
-      children: const [
-        _RenderAlbumListItem(),
-        _RenderAlbumListItem(),
-        _RenderAlbumListItem(),
-        _RenderAlbumListItem(),
-        _RenderAlbumListItem(),
-        _RenderAlbumListItem(),
-        _RenderAlbumListItem(),
-        _RenderAlbumListItem(),
-      ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final albumList =
+        ref.watch(homeControllerProvider.select((state) => state.albumList));
+
+    return GridView.builder(
+      itemCount: albumList.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 15,
+        childAspectRatio: 0.72,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return _RenderAlbumListItem(album: albumList.elementAt(index),);
+      },
     );
   }
 }
 
-
 class _RenderAlbumListItem extends StatelessWidget {
-  const _RenderAlbumListItem({super.key});
+  final AlbumElement album;
+
+  const _RenderAlbumListItem({super.key, required this.album});
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +39,22 @@ class _RenderAlbumListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(color: Colors.teal,).expanded(),
-        const SizedBox(height: 7,),
-        const Text("It's Magic")
-          .bold()
-          .textColor(Colors.white),
-        const Text('Angelina Jordan, Forsvaretangulation', maxLines: 1, overflow: TextOverflow.ellipsis,)
-          .textColor(Colors.grey.shade400),
-        const Text('2018')
-            .textColor(Colors.grey.shade400)
+      CachedNetworkImage(
+      imageUrl: "${album.images?.first.url}",
+      placeholder: (context, url) => CircularProgressIndicator(color: Colors.grey.shade400,).center(),
+      errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red.shade200,).center(),
+    ).expanded(),
+        const SizedBox(
+          height: 7,
+        ),
+        Text("${album.name}", maxLines: 1,
+          overflow: TextOverflow.ellipsis,).bold().textColor(Colors.white),
+        Text(
+          '${album.artists?.first.name}',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ).textColor(Colors.grey.shade400),
+        Text('${album.releaseDate}').textColor(Colors.grey.shade400)
       ],
     );
   }

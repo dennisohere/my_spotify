@@ -24,7 +24,10 @@ class TokenService implements ITokenService {
   final Dio _dio;
   final ISecureStorage _secureStorage;
 
-  TokenService(this._dio, this._secureStorage);
+  TokenService(this._dio, this._secureStorage){
+    _dio.options.baseUrl = authorisationUrl;
+    _dio.options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  }
 
   @override
   Future<void> clearToken() {
@@ -78,6 +81,7 @@ class TokenService implements ITokenService {
     final clientSecret = dotenv.env['SPOTIFY_CLIENT_SECRET'];
 
     Codec<String, String> stringToBase64 = utf8.fuse(base64);
+    _dio.options.headers['Authorization'] = 'Basic ${stringToBase64.encode('$clientId:$clientSecret')}';
 
     final response =  await _dio.post<Map<String, dynamic>>(
         '/token',
@@ -85,11 +89,6 @@ class TokenService implements ITokenService {
           "grant_type": 'client_credentials',
           "client_id": dotenv.env['SPOTIFY_CLIENT_ID']
         },
-      options: Options(
-        headers: {
-          'Authorization': 'Basic ${stringToBase64.encode('$clientId:$clientSecret')} '
-        }
-      )
     );
 
     if (response.statusCode == 200) {

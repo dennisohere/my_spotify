@@ -17,17 +17,17 @@ class DataListFilter extends ConsumerWidget {
       children: [
         _BuildDataTypeButton(
           label: 'Albums',
-          isSelected: dataListType == DataListType.albums,
+          isSelected: dataListType == DataListType.album,
           onTap: (){
-            ref.read(homeControllerProvider.notifier).setDataListType(DataListType.albums);
+            ref.read(homeControllerProvider.notifier).setDataListType(DataListType.album);
           },
         ),
         const SizedBox(width: 15,),
         _BuildDataTypeButton(
           label: 'Artists',
-          isSelected: dataListType == DataListType.artists,
+          isSelected: dataListType == DataListType.artist,
           onTap: (){
-            ref.read(homeControllerProvider.notifier).setDataListType(DataListType.artists);
+            ref.read(homeControllerProvider.notifier).setDataListType(DataListType.artist);
           },
         ),
       ],

@@ -24,7 +24,6 @@ final class NetworkServiceInterceptor  extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final accessToken = await _tokenService.getAccessToken();
 
-    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     options.headers['Accept'] = 'application/json';
     // if the access token is not null, add it to the request headers
     if (accessToken != null) {

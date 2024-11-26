@@ -20,7 +20,7 @@ class _SearchResultState extends ConsumerState<SearchResult> {
     final dataListType =
     ref.watch(homeControllerProvider.select((state) => state.dataListType));
 
-    if(dataListType == DataListType.albums){
+    if(dataListType == DataListType.album){
       return const AlbumDataList();
     }
 

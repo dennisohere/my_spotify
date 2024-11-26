@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   DataListType get dataListType => throw _privateConstructorUsedError;
+  SearchResultResponse? get searchResult => throw _privateConstructorUsedError;
   String? get searchText => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
@@ -31,7 +32,12 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({DataListType dataListType, String? searchText});
+  $Res call(
+      {DataListType dataListType,
+      SearchResultResponse? searchResult,
+      String? searchText});
+
+  $SearchResultResponseCopyWith<$Res>? get searchResult;
 }
 
 /// @nodoc
@@ -50,6 +56,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? dataListType = null,
+    Object? searchResult = freezed,
     Object? searchText = freezed,
   }) {
     return _then(_value.copyWith(
@@ -57,11 +64,29 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.dataListType
           : dataListType // ignore: cast_nullable_to_non_nullable
               as DataListType,
+      searchResult: freezed == searchResult
+          ? _value.searchResult
+          : searchResult // ignore: cast_nullable_to_non_nullable
+              as SearchResultResponse?,
       searchText: freezed == searchText
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SearchResultResponseCopyWith<$Res>? get searchResult {
+    if (_value.searchResult == null) {
+      return null;
+    }
+
+    return $SearchResultResponseCopyWith<$Res>(_value.searchResult!, (value) {
+      return _then(_value.copyWith(searchResult: value) as $Val);
+    });
   }
 }
 
@@ -73,7 +98,13 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DataListType dataListType, String? searchText});
+  $Res call(
+      {DataListType dataListType,
+      SearchResultResponse? searchResult,
+      String? searchText});
+
+  @override
+  $SearchResultResponseCopyWith<$Res>? get searchResult;
 }
 
 /// @nodoc
@@ -90,6 +121,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? dataListType = null,
+    Object? searchResult = freezed,
     Object? searchText = freezed,
   }) {
     return _then(_$HomeStateImpl(
@@ -97,6 +129,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.dataListType
           : dataListType // ignore: cast_nullable_to_non_nullable
               as DataListType,
+      searchResult: freezed == searchResult
+          ? _value.searchResult
+          : searchResult // ignore: cast_nullable_to_non_nullable
+              as SearchResultResponse?,
       searchText: freezed == searchText
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
@@ -107,19 +143,24 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HomeStateImpl with DiagnosticableTreeMixin implements _HomeState {
+class _$HomeStateImpl extends _HomeState with DiagnosticableTreeMixin {
   const _$HomeStateImpl(
-      {this.dataListType = DataListType.albums, this.searchText});
+      {this.dataListType = DataListType.album,
+      this.searchResult,
+      this.searchText})
+      : super._();
 
   @override
   @JsonKey()
   final DataListType dataListType;
   @override
+  final SearchResultResponse? searchResult;
+  @override
   final String? searchText;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState(dataListType: $dataListType, searchText: $searchText)';
+    return 'HomeState(dataListType: $dataListType, searchResult: $searchResult, searchText: $searchText)';
   }
 
   @override
@@ -128,6 +169,7 @@ class _$HomeStateImpl with DiagnosticableTreeMixin implements _HomeState {
     properties
       ..add(DiagnosticsProperty('type', 'HomeState'))
       ..add(DiagnosticsProperty('dataListType', dataListType))
+      ..add(DiagnosticsProperty('searchResult', searchResult))
       ..add(DiagnosticsProperty('searchText', searchText));
   }
 
@@ -138,12 +180,15 @@ class _$HomeStateImpl with DiagnosticableTreeMixin implements _HomeState {
             other is _$HomeStateImpl &&
             (identical(other.dataListType, dataListType) ||
                 other.dataListType == dataListType) &&
+            (identical(other.searchResult, searchResult) ||
+                other.searchResult == searchResult) &&
             (identical(other.searchText, searchText) ||
                 other.searchText == searchText));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, dataListType, searchText);
+  int get hashCode =>
+      Object.hash(runtimeType, dataListType, searchResult, searchText);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -154,13 +199,17 @@ class _$HomeStateImpl with DiagnosticableTreeMixin implements _HomeState {
       __$$HomeStateImplCopyWithImpl<_$HomeStateImpl>(this, _$identity);
 }
 
-abstract class _HomeState implements HomeState {
+abstract class _HomeState extends HomeState {
   const factory _HomeState(
       {final DataListType dataListType,
+      final SearchResultResponse? searchResult,
       final String? searchText}) = _$HomeStateImpl;
+  const _HomeState._() : super._();
 
   @override
   DataListType get dataListType;
+  @override
+  SearchResultResponse? get searchResult;
   @override
   String? get searchText;
 
