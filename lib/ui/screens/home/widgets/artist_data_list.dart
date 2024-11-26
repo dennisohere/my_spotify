@@ -1,16 +1,44 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:my_spotify/dtos/search_result_response.dart';
 import 'package:my_spotify/ui/screens/home/home_screen.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-class ArtistDataList extends StatelessWidget {
+import '../home_controller.dart';
+
+class ArtistDataList extends ConsumerWidget {
   const ArtistDataList({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final searchResult =
+    ref.watch(homeControllerProvider.select((state) => state.searchResult));
+
+    final artistList = searchResult?.artists?.items;
+
+    if(artistList == null || artistList.isEmpty) {
+      return Center(
+        child: const Text('No artist found').textColor(Colors.white),
+      );
+    }
+
+
     return ListView.separated(
-      itemCount: 10,
+      itemCount: artistList.length,
       itemBuilder: (_, index) {
-        return const _RenderArtistListItem();
+        final item = artistList.elementAtOrNull(index);
+
+        if(item == null){
+          Logger().d([
+            index,
+            item
+          ]);
+          return Container();
+        }
+
+        return _RenderArtistListItem(artist: item,);
       },
       separatorBuilder: (_, index) {
         return const SizedBox(height: 12,);
@@ -20,21 +48,28 @@ class ArtistDataList extends StatelessWidget {
 }
 
 class _RenderArtistListItem extends StatelessWidget {
-  const _RenderArtistListItem({super.key});
+  final ArtistsItem artist;
+
+  const _RenderArtistListItem({super.key, required this.artist});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const SizedBox(
+        SizedBox(
           width: 50,
           height: 50,
+          child: CachedNetworkImage(
+            imageUrl: "${artist.images?.firstOrNull?.url}",
+            placeholder: (context, url) => CircularProgressIndicator(color: Colors.grey.shade400,).center(),
+            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red.shade200,).center(),
+          ),
         ).backgroundColor(Colors.teal).clipRRect(all: 50),
         const SizedBox(
           width: 15,
         ),
         Expanded(
-          child: const Text('Angelina Jordan')
+          child: Text('${artist.name}')
                     .fontSize(15)
                     .fontWeight(FontWeight.w500)
                     .textColor(Colors.white),

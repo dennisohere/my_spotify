@@ -3,13 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_spotify/ui/screens/home/home_controller.dart';
 
-class SearchField extends ConsumerWidget {
+class SearchField extends ConsumerStatefulWidget {
   const SearchField({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SearchField> createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends ConsumerState<SearchField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen(homeControllerProvider.select((state) => state.dataListType), (_, __){
+      _controller.clear();
+    });
 
     return TextField(
+      controller: _controller,
       onChanged: (value){
         ref.read(homeControllerProvider.notifier).setSearchText(value);
       },

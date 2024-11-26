@@ -16,6 +16,14 @@ class HomeController extends _$HomeController{
     state = state.copyWith(searchText: text);
   }
 
+  clearSearchText() {
+    state = state.copyWith(searchText: null);
+  }
+
+  setLoading(bool isLoading) {
+    state = state.copyWith(isLoading: isLoading);
+  }
+
   setDataListType(DataListType dataListType){
     state = state.copyWith(dataListType: dataListType);
   }

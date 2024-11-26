@@ -17,6 +17,7 @@ class HomeState with _$HomeState {
     @Default(DataListType.album) DataListType dataListType,
     SearchResultResponse? searchResult,
     String? searchText,
+    @Default(false) isLoading,
   }) = _HomeState;
 
   List<AlbumElement> get albumList {
@@ -32,6 +33,6 @@ class HomeState with _$HomeState {
       return [];
     }
 
-    return searchResult!.artists!.items!;
+    return searchResult!.artists?.items ?? [];
   }
 }

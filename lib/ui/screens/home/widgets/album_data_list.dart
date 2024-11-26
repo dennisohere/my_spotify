@@ -10,11 +10,19 @@ class AlbumDataList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final albumList =
-        ref.watch(homeControllerProvider.select((state) => state.albumList));
+    final albumList = ref
+        .watch(homeControllerProvider.select((state) => state.searchResult))
+        ?.albums
+        ?.items;
+
+    if (albumList == null) {
+      return Center(
+        child: const Text('No albums found').textColor(Colors.white),
+      );
+    }
 
     return GridView.builder(
-      itemCount: albumList.length,
+      itemCount: 8,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 20,
@@ -22,7 +30,9 @@ class AlbumDataList extends ConsumerWidget {
         childAspectRatio: 0.72,
       ),
       itemBuilder: (BuildContext context, int index) {
-        return _RenderAlbumListItem(album: albumList.elementAt(index),);
+        return _RenderAlbumListItem(
+          album: albumList.elementAt(index),
+        );
       },
     );
   }
@@ -39,16 +49,24 @@ class _RenderAlbumListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-      CachedNetworkImage(
-      imageUrl: "${album.images?.first.url}",
-      placeholder: (context, url) => CircularProgressIndicator(color: Colors.grey.shade400,).center(),
-      errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red.shade200,).center(),
-    ).expanded(),
+        CachedNetworkImage(
+          imageUrl: "${album.images?.firstOrNull?.url}",
+          placeholder: (context, url) => CircularProgressIndicator(
+            color: Colors.grey.shade400,
+          ).center(),
+          errorWidget: (context, url, error) => Icon(
+            Icons.error,
+            color: Colors.red.shade200,
+          ).center(),
+        ).expanded(),
         const SizedBox(
           height: 7,
         ),
-        Text("${album.name}", maxLines: 1,
-          overflow: TextOverflow.ellipsis,).bold().textColor(Colors.white),
+        Text(
+          "${album.name}",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ).bold().textColor(Colors.white),
         Text(
           '${album.artists?.first.name}',
           maxLines: 1,

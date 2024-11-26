@@ -19,6 +19,7 @@ mixin _$HomeState {
   DataListType get dataListType => throw _privateConstructorUsedError;
   SearchResultResponse? get searchResult => throw _privateConstructorUsedError;
   String? get searchText => throw _privateConstructorUsedError;
+  dynamic get isLoading => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -35,7 +36,8 @@ abstract class $HomeStateCopyWith<$Res> {
   $Res call(
       {DataListType dataListType,
       SearchResultResponse? searchResult,
-      String? searchText});
+      String? searchText,
+      dynamic isLoading});
 
   $SearchResultResponseCopyWith<$Res>? get searchResult;
 }
@@ -58,6 +60,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? dataListType = null,
     Object? searchResult = freezed,
     Object? searchText = freezed,
+    Object? isLoading = freezed,
   }) {
     return _then(_value.copyWith(
       dataListType: null == dataListType
@@ -72,6 +75,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLoading: freezed == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 
@@ -101,7 +108,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   $Res call(
       {DataListType dataListType,
       SearchResultResponse? searchResult,
-      String? searchText});
+      String? searchText,
+      dynamic isLoading});
 
   @override
   $SearchResultResponseCopyWith<$Res>? get searchResult;
@@ -123,6 +131,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? dataListType = null,
     Object? searchResult = freezed,
     Object? searchText = freezed,
+    Object? isLoading = freezed,
   }) {
     return _then(_$HomeStateImpl(
       dataListType: null == dataListType
@@ -137,6 +146,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.searchText
           : searchText // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLoading: freezed == isLoading ? _value.isLoading! : isLoading,
     ));
   }
 }
@@ -147,7 +157,8 @@ class _$HomeStateImpl extends _HomeState with DiagnosticableTreeMixin {
   const _$HomeStateImpl(
       {this.dataListType = DataListType.album,
       this.searchResult,
-      this.searchText})
+      this.searchText,
+      this.isLoading = false})
       : super._();
 
   @override
@@ -157,10 +168,13 @@ class _$HomeStateImpl extends _HomeState with DiagnosticableTreeMixin {
   final SearchResultResponse? searchResult;
   @override
   final String? searchText;
+  @override
+  @JsonKey()
+  final dynamic isLoading;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState(dataListType: $dataListType, searchResult: $searchResult, searchText: $searchText)';
+    return 'HomeState(dataListType: $dataListType, searchResult: $searchResult, searchText: $searchText, isLoading: $isLoading)';
   }
 
   @override
@@ -170,7 +184,8 @@ class _$HomeStateImpl extends _HomeState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'HomeState'))
       ..add(DiagnosticsProperty('dataListType', dataListType))
       ..add(DiagnosticsProperty('searchResult', searchResult))
-      ..add(DiagnosticsProperty('searchText', searchText));
+      ..add(DiagnosticsProperty('searchText', searchText))
+      ..add(DiagnosticsProperty('isLoading', isLoading));
   }
 
   @override
@@ -183,12 +198,13 @@ class _$HomeStateImpl extends _HomeState with DiagnosticableTreeMixin {
             (identical(other.searchResult, searchResult) ||
                 other.searchResult == searchResult) &&
             (identical(other.searchText, searchText) ||
-                other.searchText == searchText));
+                other.searchText == searchText) &&
+            const DeepCollectionEquality().equals(other.isLoading, isLoading));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, dataListType, searchResult, searchText);
+  int get hashCode => Object.hash(runtimeType, dataListType, searchResult,
+      searchText, const DeepCollectionEquality().hash(isLoading));
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -203,7 +219,8 @@ abstract class _HomeState extends HomeState {
   const factory _HomeState(
       {final DataListType dataListType,
       final SearchResultResponse? searchResult,
-      final String? searchText}) = _$HomeStateImpl;
+      final String? searchText,
+      final dynamic isLoading}) = _$HomeStateImpl;
   const _HomeState._() : super._();
 
   @override
@@ -212,6 +229,8 @@ abstract class _HomeState extends HomeState {
   SearchResultResponse? get searchResult;
   @override
   String? get searchText;
+  @override
+  dynamic get isLoading;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

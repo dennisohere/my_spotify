@@ -18,7 +18,7 @@ Future<void> startUp(Ref ref) async {
 
   if(storedAccessToken == null) {
     final accessTokenResponse = await tokenService.requestAccessToken();
-    await tokenService.saveToken(accessTokenResponse.accessToken);
+    await tokenService.saveToken(accessTokenResponse.accessToken, refreshToken: accessTokenResponse.accessToken);
   }
 
 }

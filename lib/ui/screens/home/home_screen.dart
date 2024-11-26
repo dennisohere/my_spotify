@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_spotify/dtos/search_result_request.dart';
 import 'package:my_spotify/repositories/search_repository.dart';
 import 'package:my_spotify/ui/screens/home/home_controller.dart';
-import 'package:my_spotify/ui/screens/home/home_state.dart';
 import 'package:my_spotify/ui/screens/home/widgets/data_list_filter.dart';
 import 'package:my_spotify/ui/screens/home/widgets/search_field.dart';
 import 'package:my_spotify/ui/screens/home/widgets/search_result.dart';
@@ -21,7 +20,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _handleSearch();
+    Future.microtask((){
+      _handleSearch();
+    });
   }
 
   @override
@@ -61,9 +62,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         (_, search) {
       _handleSearch(search: search);
     });
+    ref.listen(homeControllerProvider.select((state) => state.dataListType), (old, newVal){
+      _handleSearch();
+    });
   }
 
   _handleSearch({String? search}) async {
+    ref.read(homeControllerProvider.notifier).setLoading(true);
+
     final searchType = ref.read(homeControllerProvider.select((state) => state.dataListType));
 
     final result = await ref.read(searchRepositoryProvider).search(SearchResultRequest(
@@ -72,5 +78,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ));
 
     ref.read(homeControllerProvider.notifier).setSearchResult(result);
+    ref.read(homeControllerProvider.notifier).setLoading(false);
   }
 }
