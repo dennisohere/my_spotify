@@ -42,13 +42,12 @@ final class NetworkServiceInterceptor  extends Interceptor {
 
       try {
         // refresh token request - api call
-        final result = await _tokenService.refreshToken(token);
+        final result = await _tokenService.requestAccessToken();
 
         final accessToken =  result.accessToken;
-        final refreshToken =  result.refreshToken;
 
         // save new access token and refresh token to secure storage
-        await _tokenService.saveToken(accessToken, refreshToken: refreshToken);
+        await _tokenService.saveToken(accessToken);
 
         final options = err.requestOptions;
         // update request headers with new access token

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_debouncer/flutter_debouncer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_spotify/dtos/search_result_request.dart';
 import 'package:my_spotify/repositories/search_repository.dart';
@@ -16,6 +17,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final Debouncer _debouncer = Debouncer();
 
   @override
   void initState() {
@@ -60,7 +62,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   _listener() {
     ref.listen(homeControllerProvider.select((state) => state.searchText),
         (_, search) {
-      _handleSearch(search: search);
+      _debouncer.debounce(duration: const Duration(milliseconds: 600), onDebounce: (){
+        _handleSearch(search: search!.isEmpty ? null : search);
+      });
     });
     ref.listen(homeControllerProvider.select((state) => state.dataListType), (old, newVal){
       _handleSearch();
